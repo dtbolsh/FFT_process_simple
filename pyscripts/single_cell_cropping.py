@@ -23,9 +23,8 @@ mask = tifffile.imread(mask_path)          # labeled mask
 img  = nd2.imread(img_path)  # image to crop. Format = t,c,x,y
 
 f = os.path.split(os.path.abspath(img_path))[1] #get just file name
-short_name = f.split('_Channel')[0] #works for nikon point_loop naming convention to get unique point name
+short_name = f.split('_Channel')[0] #works for nikon point_loop naming convention to get unique point name, adjust as needed
 
-#assert mask.shape[:2] == img.shape[:2], "Mask and image must align spatially." #change so matches actual image shape
 
 # ---------------------------------------------------------
 # Create a Zarr group to store object crops

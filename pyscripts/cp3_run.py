@@ -51,10 +51,10 @@ for f in contents:
         if ".tif" in f:
             im = tifffile.imread(os.path.join(folder, f))
         if ".nd2" in f:
-            im = nd2.imread(os.path.join(folder,f))
+            im = nd2.imread(os.path.join(folder,f)) # adapt similarly to other microscope file extensions
         #run model on im
         print(f"calculating mask for {f}")
-        print(im.shape)
+        print(im.shape) #if masking on fluorescence time-series, perform indexing and/or averaging before masking
         masks, flows, styles  = model.eval([im],
                           channels=[[0,0],[0,0]],
                           diameter=diameter,

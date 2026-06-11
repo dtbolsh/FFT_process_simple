@@ -25,7 +25,7 @@ for d in dirs:
         os.makedirs(os.path.join(folder,d))
 
 contents = os.listdir(folder)
-#contents = ['PointCdc48_KA1-2_ChannelDB-dia1_Seq0007.tif'] #testing out with just one im right now
+
 #instantiate cellpose4 model:
 model = models.CellposeModel(gpu=True) #make argument later on? GPU is basically essential for cellpose4
 
@@ -34,11 +34,11 @@ DIC_chan = -1 #assuming brightfield/dic is always imaged last in the point acqui
 for f in contents:
     start = time.time()
     #load image files. Currently, just for single-timepoint DIC image taken as part of point loop.
-    if ( "dia"in f ) | ( "DIC" in f):
+    if ( "dia"in f ) | ( "DIC" in f): #my naming convention for bright-field images. adjust accordingly.
         print(f"loading image{f}")
         if ".tif" in f:
             im = tifffile.imread(os.path.join(folder, f)) #assumes 2D tiff shape x,y
-        elif ".nd2" in f:
+        elif ".nd2" in f:                       #adjust to whatever file extension you need for your microscope
             with nd2.ND2File(os.path.join(folder, f)) as ndfile:
                 arr = ndfile.to_dask()
                 if len(arr.shape)>2: #arr must be in t,c,x,y shape
