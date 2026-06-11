@@ -1,7 +1,11 @@
 # FFT_process_simple
 Basic scripts to process oscillatory signals in cell microscopy data.
 
-# Image-process-app
+# walkthrough notebook
+
+The Jupyter notebook goes through the basic analysis steps on the pixel level. It also contains code for the frequency re-color of an image. I would recommend playing around with this notebook with your own imaging wave data before diving into the directory processing scripts.
+
+# FFT_process_simple
 
 Python/command-line pipeline for processing fluorescence microscopy timelapses. Designed for analysis of MinDE protein oscillations in yeast cells, but applicable to any oscillating fluorescence data. Input files are `.tiff` or `.nd2` timelapses, but can be adapted for other file extension from non-Nikon microscopes.
 
@@ -11,8 +15,10 @@ Python/command-line pipeline for processing fluorescence microscopy timelapses. 
 
 Analysis is performed in three sequential stages:
 
-1. **Cell segmentation** — generates a labeled mask from a timelapse image
+1. **Cell segmentation** — generates a labeled mask from a DIC image. Can be  adapted to use a timelapse frame or mean.
+
     Note that if you have your own segmentation pipeline, that can be used instead of cellpose. The next step just needs a labeled mask (background pixels are 0, cells are 1,2,3...) and the raw fluorescence timeseries.
+    
 2. **Single-cell cropping** — extracts individual cells into zarr arrays with metadata
 3. **FFT analysis** — performs temporal FFT on per-cell fluorescence intensity to extract oscillation data
 
