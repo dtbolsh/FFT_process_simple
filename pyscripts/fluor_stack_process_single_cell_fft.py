@@ -128,15 +128,10 @@ def get_image_red_green_data(im_zarr,mask_zarr,signal_channels): #change to im a
         c_amp = [np.nanmean(amp*mask_cell) for amp in amps]
         c_norm_amp = [np.nanmean(norm_amp*mask_cell) for norm_amp in norm_amps]
 
-        #save individual cell as tiff file #commented for now, include as option later? I basically never use this, but it could be useful for odd morphologies...
-        # cell_raw = im[:,:,y_min:y_max,x_min:x_max]
-        # cell_raw_path = cell_repo + "\\cell_{}.tiff".format(i)
-        # tifffile.imwrite(cell_raw_path,cell_raw,imagej=True)
-        # del cell_raw
         #make dictionaries from data and make pd dataframe
         data_dict = {'label':key,'Red':cell_r,'Green':cell_g} #generic fluor dict
         #add oscillation information
-        colors = ['green','red']
+        colors = ['green','red'] #yeast convention: mneongreen-MinD, MinE-mRuby2. For mammalian images, usually MinD is red. adjust channels accordingly
         for s in signal_channels:
             data_dict[colors[s]+'_freq_bin'] = c_freq[s]
             data_dict[colors[s]+'_freq_var'] = c_freq_var[s]
@@ -151,16 +146,6 @@ def get_image_red_green_data(im_zarr,mask_zarr,signal_channels): #change to im a
 
     df = pd.concat(cells_dat) #make one large dataframe with named columns
     df1 = df.reset_index(drop=True)
-    #df_1 = pd.merge(p,df1,left_index = True,right_index = True) #merge with cell shape and location dataframe
-    
-    #del im, mask, df, df1, cells_dat #clear up RAM
-    
-    #generate frequency color-code images
-    #print('generating frequency color-coded images') implement later? or just make separate functionality from saved power spectra
-    #c_ps = temporalColorCode(ps[3:15])
-    #c_ps_norm = temporalColorCode(ps_norm[3:15]) #note that the first ones run on 6/27/24 had a broader range of bins to color
-    
-    #del ps, ps_norm
 
     return df1
 
